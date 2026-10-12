@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>لیست پروکسی رایگان + عیب‌یابی</title>
+<style>
+*{box-sizing:border-box;font-family:Vazirmatn,Tahoma,sans-serif}
+body{background:#0f172a;color:#fff;margin:0;padding:20px}
+.container{max-width:750px;margin:auto;background:#1e293b;border-radius:16px;padding:20px}
+h1{text-align:center;color:#38bdf8;margin:5px 0}
+.sub{text-align:center;color:#94a3b8;font-size:14px;margin-bottom:15px}
+h2{color:#facc15;border-bottom:1px solid #334155;padding-bottom:8px;margin-top:25px}
+.controls{display:flex;gap:10px;margin-bottom:15px;flex-wrap:wrap}
+button{padding:12px;border:none;border-radius:10px;font-size:14px;font-weight:bold;cursor:pointer}
+.btn-auto{background:#22c55e;color:#06281a;flex:1}
+.btn-test{background:#38bdf8;color:#062a3a;flex:1}
+.btn-off{background:#475569;color:#fff;width:100%;margin-top:8px}
+.card{background:#0f172a;border:1px solid #334155;border-radius:12px;padding:12px;margin:10px 0}
+.info{font-size:14px;line-height:1.9}
+.ip{font-family:monospace;direction:ltr;color:#facc15;font-size:16px;font-weight:bold;text-align:left}
+.badge{display:inline-block;background:#334155;border-radius:20px;padding:2px 10px;font-size:12px;margin-left:5px}
+.badge.green{background:#14532d;color:#86efac}
+.badge.blue{background:#0c4a6e;color:#7dd3fc}
+.actions{display:flex;gap:7px;margin-top:10px}
+.use{background:#f59e0b;color:#000;flex:1}
+.auto{background:#22c55e;color:#06281a;flex:1}
+.copy{background:#334155;color:#fff;flex:1}
+.selected{border:2px solid #22c55e !important}
+#status{background:#020617;border-radius:10px;padding:12px;font-size:14px;min-height:50px;border:1px dashed #38bdf8;margin-bottom:10px;line-height:2}
+.guide{background:#020617;border-radius:10px;padding:12px;font-size:13px;color:#cbd5e1;line-height:2}
+code{direction:ltr;display:inline-block;background:#000;padding:2px 8px;border-radius:6px;color:#facc15}
+.trouble{background:#020617;border-radius:12px;padding:15px;border:1px solid #334155}
+.trouble label{display:block;margin:10px 0 5px;font-size:14px;color:#7dd3fc}
+.trouble input,.trouble select,.trouble textarea{width:100%;padding:10px;border-radius:8px;border:1px solid #334155;background:#0f172a;color:#fff;font-size:14px}
+.trouble textarea{min-height:100px;resize:vertical}
+.btn-send{background:#ef4444;color:#fff;margin-top:12px;width:100%}
+.faq{font-size:13.5px;line-height:2.1;color:#cbd5e1;background:#0f172a;border-radius:10px;padding:12px;margin-bottom:12px}
+</style>
+</head>
+<body>
+<div class="container">
+<h1>لیست پروکسی رایگان</h1>
+<div class="sub">پینگ پایین مساوی سرعت بالا</div>
+<div id="status">یک پروکسی را انتخاب کن و دکمه اتصال را بزن.</div>
+<div class="controls">
+<button class="btn-auto" onclick="autoConnect()">اتصال خودکار به بهترین</button>
+<button class="btn-test" onclick="sortByPing()">مرتب‌سازی بر اساس پینگ</button>
+</div>
+<button class="btn-off" onclick="disconnectProxy()">قطع پروکسی ویندوز</button>
+<div id="list"></div>
+<div class="guide">
+<b>روش اتصال:</b><br>
+۱. روی دکمه اتصال بزن. فایل connect-proxy.bat دانلود می شود.<br>
+۲. روی فایل دابل کلیک کن تا پروکسی روی ویندوز و کروم وصل شود.<br>
+۳. برای قطع کردن دکمه قطع پروکسی را بزن و فایل دوم را اجرا کن.
+</div>
+<h2>بخش عیب‌یابی پروکسی‌ها</h2>
+<div class="faq">
+<b>وصل نمی‌شود؟</b> پروکسی بعدی را امتحان کن.<br>
+<b>کند است؟</b> فقط پینگ زیر 500 بردار.<br>
+<b>در تلگرام کار نمی‌کند؟</b> باید SOCKS5 بگذاری.
+</div>
+<div class="trouble">
+<label>نام شما:</label>
+<input id="tName" placeholder="مثلا بردیا">
+<label>ایمیل شما:</label>
+<input id="tEmail" type="email" dir="ltr" placeholder="you@gmail.com" style="text-align:left">
+<label>پروکسی خراب:</label>
+<select id="tProxy"></select>
+<label>نوع مشکل:</label>
+<select id="tType">
+<option>وصل نمی‌شود</option>
+<option>سرعت خیلی پایین است</option>
+<option>سایت فیلتر باز نمی‌کند</option>
+<option>قطع و وصل می‌شود</option>
+<option>مشکل دیگر</option>
+</select>
+<label>توضیح مشکل:</label>
+<textarea id="tMsg" placeholder="مثلا ارور timeout داد..."></textarea>
+<button class="btn-send" onclick="sendViaEmailApp()">ارسال گزارش با برنامه ایمیل</button>
+<div style="font-size:12px;color:#94a3b8;margin-top:8px;text-align:center">با زدن دکمه وارد برنامه ایمیل می شود و به brdyamhrany@gmail.com ارسال می شود</div>
+</div>
+</div>
+<script>
+const proxies = [
+{ip:"103.237.102.191",port:"11111",country:"آلمان",type:"HTTP elite",ping:210},
+{ip:"161.35.70.249",port:"80",country:"آلمان",type:"HTTP elite",ping:260},
+{ip:"195.201.251.184",port:"80",country:"آلمان",type:"SOCKS5",ping:698},
+{ip:"128.199.202.122",port:"8080",country:"سنگاپور",type:"HTTP elite",ping:320},
+{ip:"139.59.1.14",port:"8080",country:"هند",type:"HTTP elite",ping:410},
+{ip:"43.173.120.13",port:"8899",country:"آمریکا",type:"HTTP elite",ping:380},
+{ip:"104.225.162.20",port:"8082",country:"آمریکا",type:"HTTP elite",ping:450},
+{ip:"3.211.120.181",port:"443",country:"آمریکا",type:"HTTPS",ping:480},
+{ip:"209.97.150.167",port:"3128",country:"آمریکا",type:"HTTP",ping:520},
+{ip:"107.167.18.122",port:"443",country:"بین‌المللی",type:"SOCKS5",ping:81}
+];
+function render(){
+const box=document.getElementById('list');box.innerHTML='';
+const sel=document.getElementById('tProxy');sel.innerHTML='';
+proxies.forEach((p,i)=>{
+const div=document.createElement('div');div.className='card';div.id='card'+i;
+div.innerHTML='<div class="info"><div class="ip">'+p.ip+':'+p.port+'</div><span class="badge green">'+p.country+'</span><span class="badge blue">'+p.type+'</span><span class="badge">پینگ حدود '+p.ping+'ms</span></div><div class="actions"><button class="auto" onclick="downloadConnect('+i+')">اتصال</button><button class="copy" onclick="copyProxy('+i+')">کپی</button></div>';
+box.appendChild(div);
+let o=document.createElement('option');o.value=p.ip+':'+p.port;o.textContent=p.ip+':'+p.port+' ('+p.country+')';sel.appendChild(o);
+});
+}
+function copyText(t){if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).catch(()=>fallbackCopy(t));}else{fallbackCopy(t);}}
+function fallbackCopy(t){let e=document.createElement('textarea');e.value=t;document.body.appendChild(e);e.select();try{document.execCommand('copy');}catch(err){}e.remove();}
+function copyProxy(i){const p=proxies[i];copyText(p.ip+':'+p.port);document.getElementById('status').innerHTML='کپی شد: <code>'+p.ip+':'+p.port+'</code>';}
+function selectProxy(i){document.querySelectorAll('.card').forEach(c=>c.classList.remove('selected'));document.getElementById('card'+i).classList.add('selected');}
+function downloadFile(filename,content){
+const blob=new Blob([content],{type:'text/plain;charset=utf-8'});
+const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=filename;document.body.appendChild(a);a.click();a.remove();
+}
+function downloadConnect(i){
+const p=proxies[i];
+selectProxy(i);
+copyText(p.ip+':'+p.port);
+const bat='@echo off\r\nchcp 65001 >nul\r\nreg add "HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Internet Settings" /v ProxyEnable /t REG_DWORD /d 1 /f\r\nreg add "HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Internet Settings" /v ProxyServer /t REG_SZ /d '+p.ip+':'+p.port+' /f\r\nreg add "HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Internet Settings" /v ProxyOverride /t REG_SZ /d "localhost;127.*;10.*;192.168.*" /f\r\necho Connected to '+p.ip+':'+p.port+'\r\npause\r\n';
+downloadFile('connect-proxy.bat',bat);
+document.getElementById('status').innerHTML='در حال اتصال به <code>'+p.ip+':'+p.port+'</code><br>فایل connect-proxy.bat دانلود شد. آن را اجرا کن تا وصل شود. آی پی هم در حافظه کپی شد.';
+document.getElementById('card'+i).scrollIntoView({behavior:'smooth',block:'center'});
+}
+function disconnectProxy(){
+const bat='@echo off\r\nreg add "HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Internet Settings" /v ProxyEnable /t REG_DWORD /d 0 /f\r\necho Proxy disabled\r\npause\r\n';
+downloadFile('disconnect-proxy.bat',bat);
+document.getElementById('status').innerHTML='فایل قطع اتصال دانلود شد. اجرایش کن تا به حالت عادی برگردی.';
+}
+function autoConnect(){let best=0;proxies.forEach((p,i)=>{if(p.ping<proxies[best].ping)best=i;});downloadConnect(best);}
+function sortByPing(){proxies.sort((a,b)=>a.ping-b.ping);render();}
+function sendViaEmailApp(){
+const name=document.getElementById('tName').value||'کاربر ناشناس';
+const email=document.getElementById('tEmail').value||'ایمیل وارد نشده';
+const proxy=document.getElementById('tProxy').value;
+const type=document.getElementById('tType').value;
+const msg=document.getElementById('tMsg').value||'بدون توضیح';
+const subject=encodeURIComponent('گزارش خرابی پروکسی: '+proxy);
+const body=encodeURIComponent('سلام بردیا\n\nنام: '+name+'\nایمیل گزارش دهنده: '+email+'\nپروکسی خراب: '+proxy+'\nنوع مشکل: '+type+'\nتوضیح: '+msg+'\nزمان: '+new Date().toLocaleString('fa-IR'));
+window.location.href='mailto:brdyamhrany@gmail.com?subject='+subject+'&body='+body;
+document.getElementById('status').innerHTML='در حال باز کردن برنامه ایمیل برای ارسال به brdyamhrany@gmail.com ... ایمیل شما ('+email+') داخل متن گزارش گذاشته شد.';
+}
+render();
+</script>
+</body>
+  </html>
